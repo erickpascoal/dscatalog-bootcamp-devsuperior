@@ -1,27 +1,28 @@
 package com.erickps.dscatalog.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.erickps.dscatalog.entities.Category;
+import com.erickps.dscatalog.services.CategoryService;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
+	@Autowired
+	private CategoryService categoryService;
+
 	@GetMapping
-	public ResponseEntity<List<Category>> listCategories() {
-		List<Category> list = new ArrayList<Category>();
+	public ResponseEntity<List<Category>> findAll() {
+		List<Category> categories = categoryService.findAll();
 
-		list.add(new Category(1L, "books"));
-		list.add(new Category(2L, "eletronics"));
-
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().body(categories);
 
 	}
 
