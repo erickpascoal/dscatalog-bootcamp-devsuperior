@@ -9,20 +9,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.erickps.dscatalog.services.exceptions.ServiceNotFoundException;
+import com.erickps.dscatalog.services.exceptions.DatabaseException;
+import com.erickps.dscatalog.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-	@ExceptionHandler(ServiceNotFoundException.class)
-	public ResponseEntity<StandardError> notFoundException(ServiceNotFoundException error, HttpServletRequest request) {
-		StandardError newError = new StandardError();
-		newError.setTimestamp(Instant.now());
-		newError.setStatus(HttpStatus.NOT_FOUND.value());
-		newError.setError("Resource not found");
-		newError.setMessage(error.getMessage());
-		newError.setPath(request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(newError);
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> notFoundException(ObjectNotFoundException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now());
+		error.setStatus(status.value());
+		error.setError("Resource not found");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(status.value()).body(error);
 	}
 
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now());
+		error.setStatus(status.value());
+		error.setError("Data integrity violation.");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(status.value()).body(error);
+	}
 }

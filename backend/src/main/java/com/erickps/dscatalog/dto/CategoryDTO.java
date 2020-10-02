@@ -2,7 +2,7 @@ package com.erickps.dscatalog.dto;
 
 import java.io.Serializable;
 
-import com.erickps.dscatalog.entities.Category;
+import com.erickps.dscatalog.models.Category;
 
 public class CategoryDTO implements Serializable {
 
