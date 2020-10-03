@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.erickps.dscatalog.dto.ProductDTO;
+import com.erickps.dscatalog.models.Category;
 import com.erickps.dscatalog.models.Product;
+import com.erickps.dscatalog.repositories.CategoryRepository;
 import com.erickps.dscatalog.repositories.ProductRepository;
 import com.erickps.dscatalog.services.exceptions.DatabaseException;
 import com.erickps.dscatalog.services.exceptions.ObjectNotFoundException;
@@ -22,6 +24,9 @@ import com.erickps.dscatalog.services.exceptions.ObjectNotFoundException;
 public class ProductService {
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
@@ -39,7 +44,7 @@ public class ProductService {
 	@Transactional
 	public ProductDTO create(ProductDTO productDTO) {
 		Product product = new Product();
-		product.setName(productDTO.getName());
+		copyDtoToEntity(product, productDTO);
 		Product productCreated = productRepository.save(product);
 		return new ProductDTO(productCreated);
 	}
@@ -48,7 +53,7 @@ public class ProductService {
 	public ProductDTO update(ProductDTO productDTO, Long id) {
 		try {
 			Product product = productRepository.getOne(id);
-			product.setName(productDTO.getName());
+			copyDtoToEntity(product, productDTO);
 			Product productUpdated = productRepository.save(product);
 			return new ProductDTO(productUpdated);
 		} catch (EntityNotFoundException e) {
@@ -64,6 +69,20 @@ public class ProductService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Objeto ligado a outro e não pode ser deletado");
 		}
+	}
 
+	private void copyDtoToEntity(Product product, ProductDTO productDto) {
+		product.setName(productDto.getName());
+		product.setPrice(productDto.getPrice());
+		product.setDate(productDto.getDate());
+		product.setDescription(productDto.getDescription());
+		product.setImgUrl(productDto.getImgUrl());
+
+		product.getCategories().clear();
+
+		productDto.getCategories().forEach(categoryDto -> {
+			Category category = categoryRepository.getOne(categoryDto.getId());
+			product.getCategories().add(category);
+		});
 	}
 }

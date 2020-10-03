@@ -1,6 +1,7 @@
 package com.erickps.dscatalog.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,18 +22,21 @@ public class ProductDTO implements Serializable {
 
 	private String imgUrl;
 
+	private Instant date;
+
 	Set<CategoryDTO> categories = new HashSet<>();
 
 	public ProductDTO() {
 
 	}
 
-	public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
+	public ProductDTO(Long id, String name, String description, Double price, String imgUrl, Instant date) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+		this.date = date;
 	}
 
 	public ProductDTO(Product product) {
@@ -41,6 +45,7 @@ public class ProductDTO implements Serializable {
 		this.description = product.getDescription();
 		this.price = product.getPrice();
 		this.imgUrl = product.getImgUrl();
+		this.date = product.getDate();
 	}
 
 	public ProductDTO(Product product, Set<Category> categories) {
@@ -90,6 +95,14 @@ public class ProductDTO implements Serializable {
 
 	public Set<CategoryDTO> getCategories() {
 		return categories;
+	}
+
+	public Instant getDate() {
+		return date;
+	}
+
+	public void setDate(Instant date) {
+		this.date = date;
 	}
 
 }
