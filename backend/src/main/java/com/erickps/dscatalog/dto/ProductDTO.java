@@ -1,6 +1,11 @@
 package com.erickps.dscatalog.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.erickps.dscatalog.models.Category;
+import com.erickps.dscatalog.models.Product;
 
 public class ProductDTO implements Serializable {
 
@@ -16,6 +21,8 @@ public class ProductDTO implements Serializable {
 
 	private String imgUrl;
 
+	Set<CategoryDTO> categories = new HashSet<>();
+
 	public ProductDTO() {
 
 	}
@@ -26,6 +33,19 @@ public class ProductDTO implements Serializable {
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+	}
+
+	public ProductDTO(Product product) {
+		this.id = product.getId();
+		this.name = product.getName();
+		this.description = product.getDescription();
+		this.price = product.getPrice();
+		this.imgUrl = product.getImgUrl();
+	}
+
+	public ProductDTO(Product product, Set<Category> categories) {
+		this(product);
+		categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 	}
 
 	public Long getId() {
@@ -66,6 +86,10 @@ public class ProductDTO implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public Set<CategoryDTO> getCategories() {
+		return categories;
 	}
 
 }
