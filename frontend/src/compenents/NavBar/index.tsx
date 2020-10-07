@@ -1,25 +1,33 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './styles.scss'
 // import { Container } from './styles';
 
-const NavBar: React.FC = () => {
+const Navbar: React.FC = () => {
     return (
-        <nav className="navbar-container bg-primary" >
-            <div className="col-2 logo-name">
-                <h4>DSCATALOG</h4>
+        <nav className="row bg-primary navbar-container" >
+            <div className="col-2">
+                <Link to="/" className="nav-logo-text">
+                    <h4>DS CATALOG</h4>
+                </Link>
             </div>
 
             <div className="col-6 offset-2">
-                <ul className="d-flex">
+                <ul className="main-menu">
                     <li>
-                        Home
+                        <NavLink to="/" exact activeClassName="active">
+                            Home
+                        </NavLink>
                     </li>
                     <li>
-                        Catalog
+                        <NavLink to="/catalog" activeClassName="active">
+                            Catálogo
+                        </NavLink>
                     </li>
                     <li>
-                        Admin
+                        <NavLink to="/admin" activeClassName="active">
+                            Admin
+                        </NavLink>
                     </li>
                 </ul>
             </div>
@@ -29,4 +37,4 @@ const NavBar: React.FC = () => {
     );
 }
 
-export default NavBar;
+export default Navbar;

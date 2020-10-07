@@ -1,11 +1,36 @@
 .navbar-container {
     height: 70px;
-    display: flex;
+    color: #fff;
+    align-items: center;
+    padding-left: 40px;
+    margin-right: 0;
+    margin-left: 0;
 }
 
-.logo-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.nav-logo-text {
     color: #fff;
+}
+
+.main-menu {
+    display: flex;
+    font-size: 18px;
+    width: 380px;
+    text-transform: uppercase;
+    justify-content: space-between;
+
+    a {
+        color: #ffffff80;
+        font-style: normal;
+
+        &.active {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+        
+    }
 }

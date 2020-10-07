@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import NavBar from './compenents/NavBar';
+import Navbar from './compenents/Navbar';
 import Admin from './pages/Admin';
 import Catalog from './pages/Catalog';
 import Home from './pages/Home';
@@ -8,7 +8,7 @@ import Home from './pages/Home';
 const Routes = () => {
     return (
         <BrowserRouter>
-            <NavBar />
+            <Navbar />
             <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/catalog" component={Catalog} />
